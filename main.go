@@ -25,28 +25,38 @@ func main() {
 
 
 
-/*	for i:=0;i<1000000;i++ {
+	/*for i:=0;i<1000000;i++ {
 		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:fmt.Sprintf("widaddd_%d",i),Feature:&pb.Feature{Feature:feature}})
 		if err != nil {
 			log.Fatalf("could not greet: %v", err)
 		}
 	}
+*/
 
-
-	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:"widaddd",Feature:&pb.Feature{Feature:feature}})
+	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"aaaaaaa",Id:"widaddd",Feature:feature})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
 	//log.Printf("Greeting: %s", r.Users)
-	fmt.Println(ret)*/
+	fmt.Println(ret)
 
 
+	dd,err := c.GetUser(context.Background(),&pb.UserInfo{Group:"aaaaaaa",Id:"widaddd"})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	fmt.Println(dd.GetFeature())
 	stime := time.Now()
-
 	r, err := c.Search(context.Background(), &pb.SearchRequest{Group:"tesst",Feature:feature})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	fmt.Println(r.Users[0].Distance)
-	fmt.Println(time.Now().Sub(stime))
+	fmt.Println(r,time.Now().Sub(stime))
+
+
+	d,err:= c.DelUser(context.Background(),&pb.UserInfo{Group:"aaaaaaa",Id:"widaddd"})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	fmt.Println(d)
 }

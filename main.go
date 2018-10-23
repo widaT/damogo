@@ -50,14 +50,14 @@ func main() {
 	stime = time.Now()
 	r, err := c.Search(context.Background(), &pb.SearchRequest{Group:"tesst",Feature:feature})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not ret: %v", err)
 	}
 	fmt.Println(r,time.Now().Sub(stime))
 	os.Exit(-1)
 
 	d,err:= c.DelUser(context.Background(),&pb.UserInfo{Group:"aaaaaaa",Id:"widaddd"})
 	if err != nil {
-		log.Fatalf("could not greet: %v", err)
+		log.Fatalf("could not ret: %v", err)
 	}
 	fmt.Println(d)
 }

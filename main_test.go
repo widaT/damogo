@@ -58,7 +58,7 @@ func TestSearchUser(t *testing.T)  {
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}
-	fmt.Println(r)
+	fmt.Println(r.Users)
 }
 
 func TestDelUser(t *testing.T)  {
@@ -78,7 +78,7 @@ func TestGroupList(t *testing.T)  {
 }
 
 func TestUserList(t *testing.T)  {
-	users,err := c.UserList(context.Background(),&pb.UserListReq{Group:"tesst",Skey:"",Num:10000})
+	users,err := c.UserList(context.Background(),&pb.UserListReq{Group:"tesst",Skey:"",Num:10})
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}

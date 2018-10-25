@@ -38,7 +38,7 @@ func TestAddUsers(t *testing.T)  {
 }
 
 func TestAddUser(t *testing.T)  {
-	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst1",Id:"widaddd",Feature:feature})
+	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:"zidaddd139",Feature:feature})
 	if err != nil {
 		t.Fatalf("could not greet: %v", err)
 	}
@@ -78,7 +78,7 @@ func TestGroupList(t *testing.T)  {
 }
 
 func TestUserList(t *testing.T)  {
-	users,err := c.UserList(context.Background(),&pb.UserListReq{Group:"tesst",Skey:"",Num:10})
+	users,err := c.UserList(context.Background(),&pb.UserListReq{Group:"aaaaaaa",Skey:"",Num:10})
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}
@@ -109,4 +109,14 @@ func TestDelGroup(t *testing.T)  {
 	if (dd.Feature !=nil) {
 		t.Fatalf("err %s",dd.Group)
 	}
+}
+
+
+
+func TestGroupSize(t *testing.T)  {
+	size,err := c.GroupSize(context.Background(),&pb.Group{Group:"tesst"})
+	if err != nil {
+		t.Fatalf("could not ret: %v", err)
+	}
+	fmt.Println(size.Size)
 }

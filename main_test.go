@@ -7,6 +7,8 @@ import (
 	"google.golang.org/grpc"
 	"fmt"
 	"testing"
+	"encoding/hex"
+	"crypto/md5"
 )
 
 const (
@@ -28,9 +30,18 @@ func init () {
 	c = pb.NewFacedbClient(conn)
 }
 
+
+
+
+func md5string(str string) string {
+	md5Ctx := md5.New()
+	md5Ctx.Write([]byte(str))
+	return hex.EncodeToString(md5Ctx.Sum(nil))
+}
+
 func TestAddUsers(t *testing.T)  {
 	for i:=0;i<1000000;i++ {
-		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:fmt.Sprintf("widaddd_%d",i),Feature:feature})
+		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:md5string(fmt.Sprintf("widaddd_%d",i)),Feature:feature})
 		if err != nil {
 			t.Fatalf("could not greet: %v", err)
 		}
@@ -38,7 +49,7 @@ func TestAddUsers(t *testing.T)  {
 }
 
 func TestAddUser(t *testing.T)  {
-	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:"zidaddd139",Feature:feature})
+	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesstaaa",Id:"zidaddd139",Feature:feature})
 	if err != nil {
 		t.Fatalf("could not greet: %v", err)
 	}
@@ -119,4 +130,13 @@ func TestGroupSize(t *testing.T)  {
 		t.Fatalf("could not ret: %v", err)
 	}
 	fmt.Println(size.Size)
+}
+
+func TestInfo(t *testing.T)  {
+	ret,err := c.Info(context.Background(),&pb.Null{})
+	if err != nil {
+		t.Fatalf("could not ret: %v", err)
+	}
+	fmt.Println(ret)
+
 }

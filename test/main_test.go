@@ -1,8 +1,8 @@
-package main
+package test
 
 import (
 	"log"
-	"github.com/widaT/damogo/pb"
+	"github.com/widaT/damogo/pkg/pb"
 	"context"
 	"google.golang.org/grpc"
 	"fmt"
@@ -27,6 +27,7 @@ func init () {
 		log.Fatalf("did not connect: %v", err)
 	}
 	//defer conn.Close()
+	//c = pb.NewFacedbClient(conn)
 	c = pb.NewFacedbClient(conn)
 }
 
@@ -41,7 +42,8 @@ func md5string(str string) string {
 
 func TestAddUsers(t *testing.T)  {
 	for i:=0;i<1000000;i++ {
-		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:md5string(fmt.Sprintf("widaddd_%d",i)),Feature:feature})
+		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesst",Id:md5string(fmt.Sprintf("widaddd_%d",i)),
+				Feature:feature})
 		if err != nil {
 			t.Fatalf("could not greet: %v", err)
 		}

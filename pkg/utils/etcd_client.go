@@ -2,7 +2,7 @@ package utils
 
 import (
 	"github.com/widaT/damogo/pkg/structure"
-	"github.com/coreos/etcd/clientv3"
+	"go.etcd.io/etcd/clientv3"
 	"context"
 	"time"
 	"strings"
@@ -11,10 +11,10 @@ import (
 )
 
 const (
-	KEY_PREFIX          = "facedb_group/"
-	GATEWAY_NODE_PREFIX = "gateway_notes/"
-	FACEDB_NODE_PREFIX  = "facedb_notes/"
-	DEFAUT_HOST_KEY     = "facedb_default_host"
+	KEY_PREFIX          = "damo_facedb_group/"
+	GATEWAY_NODE_PREFIX = "damo_gateway_notes/"
+	FACEDB_NODE_PREFIX  = "damo_facedb_notes/"
+	DEFAUT_HOST_KEY     = "damo_facedb_default_host"
 )
 
 var cli *clientv3.Client
@@ -25,6 +25,7 @@ func init() {
 		Endpoints:   Conf.GetArray("etcd", "urls", ","),
 		DialTimeout: time.Second * 3,
 	})
+
 	if err != nil {
 		log.Error("etcd 链接错误" + err.Error())
 		os.Exit(-1)
@@ -56,6 +57,9 @@ func init() {
 		arr := strings.Split(key, "--")
 		SetGroup(arr[0], arr[1], string(ev.Value))
 	}
+
+
+
 	//watch group
 	go func() {
 		rch := cli.Watch(context.Background(), KEY_PREFIX, clientv3.WithPrefix())

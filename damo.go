@@ -30,7 +30,7 @@ const (
 
 type UserInfo struct {
 	UID        string                 `json:"uid"`
-	GroupId    string                 `json:"group_id"`
+	GroupId    string                 `json:"group_id,omitempty"`
 	Distance   float32   			  `json:"scores"`
 }
 
@@ -227,12 +227,14 @@ func useAdd(ctx *server.Context) string {
 	conn, err := utils.GetRpcClientByUid(groupId, uid, true)
 	if err != nil {
 		jsonResp.ErrorCode = ADD_USER_ERROR
-		jsonResp.ErrorMsg = "添加用户rpc服务调用失败:" + err.Error()
+		jsonResp.ErrorMsg = "添加用户rpc链接失败" + err.Error()
 		log.Error(jsonResp.ErrorMsg)
 		return jsonResp.ToJson()
 	}
 	defer conn.Close()
 	client := pb.NewFacedbClient(conn)
+
+	fmt.Println(userInfo)
 	ret ,err := client.AddUser(context.Background(), &userInfo)
 	if err != nil {
 		jsonResp.ErrorCode = ADD_USER_ERROR

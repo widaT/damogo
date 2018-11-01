@@ -94,11 +94,11 @@ func TestSimilarity(t *testing.T)  {
 }
 
 
-func euclidean(infoA, infoB []FeatureFloat) (FeatureFloat, error) {
+func euclidean(infoA, infoB []float32) (float32, error) {
 	if len(infoA) != len(infoB) {
 		return 0, errors.New("params err")
 	}
-	var distance FeatureFloat
+	var distance float32
 	for i, number := range infoA {
 		a := number - infoB[i]
 		distance += a * a
@@ -107,10 +107,10 @@ func euclidean(infoA, infoB []FeatureFloat) (FeatureFloat, error) {
 }
 
 
-func similarity(diff FeatureFloat) FeatureFloat {
-	threshold :=FeatureFloat(utils.Conf.GetFloat32("base","threshold"))
-	maxDiff := FeatureFloat(0.6*threshold + threshold)
-	similarity := FeatureFloat(0.0)
+func similarity(diff float32) float32 {
+	threshold :=float32(utils.Conf.GetFloat32("base","threshold"))
+	maxDiff := float32(0.6*threshold + threshold)
+	similarity := float32(0.0)
 	if diff > maxDiff {
 		similarity = 0.0
 	} else {
@@ -123,8 +123,8 @@ func similarity(diff FeatureFloat) FeatureFloat {
 }
 
 
-func similarity2(distance FeatureFloat) FeatureFloat {
-	similarity := FeatureFloat(0.0)
+func similarity2(distance float32) float32 {
+	similarity := float32(0.0)
 	if distance > 2.65 {
 		similarity = 0.0
 	} else {

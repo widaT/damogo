@@ -42,8 +42,8 @@ func md5string(str string) string {
 }
 
 func TestAddUsers(t *testing.T)  {
-	for i:=0;i<1000000;i++ {
-		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"1111111u",Id:md5string(fmt.Sprintf("widaddd_%d",i)),
+	for i:=0;i<100000;i++ {
+		_, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"test22",Id:md5string(fmt.Sprintf("widaddd_%d",i)),
 				Feature:feature})
 		if err != nil {
 			t.Fatalf("could not greet: %v", err)
@@ -52,7 +52,7 @@ func TestAddUsers(t *testing.T)  {
 }
 
 func TestAddUser(t *testing.T)  {
-	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"tesstaaa",Id:"zidaddd139",Feature:feature})
+	ret, err := c.AddUser(context.Background(),&pb.UserInfo{Group:"test23",Id:"zidaddd139",Feature:feature})
 	if err != nil {
 		t.Fatalf("could not greet: %v", err)
 	}
@@ -60,7 +60,11 @@ func TestAddUser(t *testing.T)  {
 }
 
 func TestGetUser(t *testing.T)  {
+<<<<<<< HEAD
 	dd,err := c.GetUser(context.Background(),&pb.UserInfo{Group:"1111111u",Id:"widaddd"})
+=======
+	dd,err := c.GetUser(context.Background(),&pb.UserInfo{Group:"test23",Id:"zidaddd139"})
+>>>>>>> 0d02d8419343d792ed454f1f940addc5937f8c3e
 	if err != nil {
 		t.Fatalf("could not greet: %v", err)
 	}
@@ -68,7 +72,11 @@ func TestGetUser(t *testing.T)  {
 }
 
 func TestSearchUser(t *testing.T)  {
+<<<<<<< HEAD
 	r, err := c.Search(context.Background(), &pb.SearchRequest{Group:"1111111u",Feature:feature})
+=======
+	r, err := c.Search(context.Background(), &pb.SearchRequest{Group:"test23",Feature:feature})
+>>>>>>> 0d02d8419343d792ed454f1f940addc5937f8c3e
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}
@@ -76,7 +84,7 @@ func TestSearchUser(t *testing.T)  {
 }
 
 func TestDelUser(t *testing.T)  {
-	d,err:= c.DelUser(context.Background(),&pb.UserInfo{Group:"aaaaaaa",Id:"widaddd"})
+	d,err:= c.DelUser(context.Background(),&pb.UserInfo{Group:"tesstaaa",Id:"zidaddd139"})
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}
@@ -128,7 +136,7 @@ func TestDelGroup(t *testing.T)  {
 
 
 func TestGroupSize(t *testing.T)  {
-	size,err := c.GroupSize(context.Background(),&pb.Group{Group:"tesst"})
+	size,err := c.GroupSize(context.Background(),&pb.Group{Group:"tesstaaa"})
 	if err != nil {
 		t.Fatalf("could not ret: %v", err)
 	}

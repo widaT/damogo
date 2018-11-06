@@ -2,20 +2,10 @@ package utils
 
 import (
 	"github.com/widaT/golib/httplib"
-	"github.com/widaT/golib/logger"
-	"strings"
 	"errors"
-	"path"
 	"time"
-	"os"
 )
-var log *logger.GxLogger
 
-func init() {
-	wd, _ := os.Getwd()
-	wd = strings.Replace(wd, "\\", "/", -1)
-	log = logger.NewLogger(`{"filename":"` + path.Join(wd, "log") + `/etcd.log"}`)
-}
 
 type Face struct {
 	Feature  []float32         `json:"feature"`

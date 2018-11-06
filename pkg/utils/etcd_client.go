@@ -8,6 +8,8 @@ import (
 	"strings"
 	"os"
 	"errors"
+	"github.com/widaT/golib/logger"
+	"path"
 )
 
 const (
@@ -19,8 +21,14 @@ const (
 
 var cli *clientv3.Client
 var err error
+var log *logger.GxLogger
 
 func init() {
+
+	wd, _ := os.Getwd()
+	wd = strings.Replace(wd, "\\", "/", -1)
+	log = logger.NewLogger(`{"filename":"` + path.Join(wd, "log") + `/etcd.log"}`)
+
 	cli, err = clientv3.New(clientv3.Config{
 		Endpoints:   Conf.GetArray("etcd", "urls", ","),
 		DialTimeout: time.Second * 3,
@@ -53,12 +61,10 @@ func init() {
 		os.Exit(-1)
 	}
 	for _, ev := range resp.Kvs {
-		key := strings.Replace(string(ev.Key), KEY_PREFIX,"",-1)
+		key := strings.Replace(string(ev.Key), KEY_PREFIX, "", -1)
 		arr := strings.Split(key, "--")
 		SetGroup(arr[0], arr[1], string(ev.Value))
 	}
-
-
 
 	//watch group
 	go func() {
@@ -67,23 +73,23 @@ func init() {
 			for _, ev := range wresp.Events {
 				switch ev.Type {
 				case clientv3.EventTypePut:
-					key := strings.Replace(string(ev.Kv.Key), KEY_PREFIX,"",-1)
+					key := strings.Replace(string(ev.Kv.Key), KEY_PREFIX, "", -1)
 					arr := strings.Split(key, "--")
 					if len(arr) != 2 {
 						log.Error("etcd Watch EventTypePut err data key：" + key)
 					} else {
 						SetGroup(arr[0], arr[1], string(ev.Kv.Value))
-						log.Info("SetGroup %s %s %s",arr[0],arr[1],string(ev.Kv.Value))
+						log.Info("SetGroup %s %s %s", arr[0], arr[1], string(ev.Kv.Value))
 					}
 
 				case clientv3.EventTypeDelete:
-					key := strings.Replace(string(ev.Kv.Key), KEY_PREFIX,"",-1)
+					key := strings.Replace(string(ev.Kv.Key), KEY_PREFIX, "", -1)
 					arr := strings.Split(key, "--")
 					if len(arr) != 2 {
 						log.Error("etcd Watch EventTypeDelete err data key：" + key)
 					} else {
 						delGroup(arr[0], arr[1])
-						log.Info("delGroup %s:%s",arr[0],arr[1])
+						log.Info("delGroup %s:%s", arr[0], arr[1])
 					}
 				}
 			}
@@ -190,7 +196,7 @@ func EtcdGetGatewayNodes() ([]structure.HostInfo, error) {
 		return nil, err
 	}
 	for _, ev := range resp.Kvs {
-		host := structure.HostInfo{Name: strings.Replace(string(ev.Key), GATEWAY_NODE_PREFIX,"",-1), RegisterTime: string(ev.Value)}
+		host := structure.HostInfo{Name: strings.Replace(string(ev.Key), GATEWAY_NODE_PREFIX, "", -1), RegisterTime: string(ev.Value)}
 		hosts = append(hosts, host)
 	}
 	return hosts, nil
@@ -206,7 +212,7 @@ func EtcdGetFacedbNodes() ([]structure.HostInfo, error) {
 		return nil, err
 	}
 	for _, ev := range resp.Kvs {
-		host := structure.HostInfo{Name: strings.Replace(string(ev.Key), FACEDB_NODE_PREFIX,"",-1), RegisterTime: string(ev.Value)}
+		host := structure.HostInfo{Name: strings.Replace(string(ev.Key), FACEDB_NODE_PREFIX, "", -1), RegisterTime: string(ev.Value)}
 		hosts = append(hosts, host)
 	}
 	return hosts, nil

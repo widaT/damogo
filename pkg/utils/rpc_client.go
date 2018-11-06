@@ -95,8 +95,13 @@ func GetRpcClientByUid(groupId, uid string, needDefautHost bool) (*grpc.ClientCo
 		//获取默认机器
 		if needDefautHost {
 			host := strings.Split(defaultHost, "||")
+			conn,err := GetFacedb (host[0])
+			if err != nil {
+				log.Error("group %s get defaulthost %s connect err %s",groupId,host[0],err.Error())
+				return nil,err
+			}
 			EtcdSetGroup(groupId, host[0], host[1]+"||"+host[2])
-			return GetFacedb (host[0])
+			return conn,nil
 		}
 		return nil, errors.New("host not found")
 	}

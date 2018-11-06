@@ -98,6 +98,7 @@ func init() {
 				switch ev.Type {
 				case clientv3.EventTypePut:
 					defaultHost = string(ev.Kv.Value)
+					log.Info("default host change to %",string(ev.Kv.Value))
 				default:
 					log.Error("etcd 监控defaulthost 获取到异常值 %s %s", ev.Type, ev.Kv.Value)
 				}
@@ -120,6 +121,11 @@ func EtcdDelGroup(groupId string) bool {
 	}
 	return true
 }
+
+func EtcdGetDefaultHost() string {
+	return defaultHost
+}
+
 
 func EtcdSetGroup(groupId, host string, keyRange string) bool {
 	if groupId == "" || host == "" {

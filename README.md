@@ -1,5 +1,12 @@
 # damogo
 
+## feature
+
+- 采用grpc
+
+- 采用etcd 做group 分片路由
+
+
 
 
 ## docker
